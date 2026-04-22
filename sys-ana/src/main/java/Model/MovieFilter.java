@@ -26,7 +26,45 @@ public class MovieFilter {
         this.language = language;
         this.isWatched = isWatched;
     }
+public String getGenre() {
+        return genre;
+    }
 
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getDirectorName() {
+        return directorName;
+    }
+
+    public void setDirectorName(String directorName) {
+        this.directorName = directorName;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public Boolean getIsWatched() {
+        return isWatched;
+    }
+
+    public void setIsWatched(Boolean isWatched) {
+        this.isWatched = isWatched;
+    }
     @Override
     public String toString() {
         return "MovieFilter{" +
