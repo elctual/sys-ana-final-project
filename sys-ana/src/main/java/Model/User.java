@@ -10,20 +10,17 @@ package Model;
  */
 import javax.swing.JFrame;
 
-public abstract class User {
+public class User {
 
-    // Nitelikler (# işareti protected anlamına gelir)
     protected int userId;
     protected String username;
     protected String password;
     protected String email;
     protected int userType;
 
-    // Boş Kurucu Metot
     public User() {
     }
 
-    // Dolu Kurucu Metot
     public User(int userId, String username, String password, String email, int userType) {
         this.userId = userId;
         this.username = username;
@@ -32,7 +29,6 @@ public abstract class User {
         this.userType = userType;
     }
 
-    // Getter ve Setter Metotları
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
 
@@ -48,9 +44,7 @@ public abstract class User {
     public int getUserType() { return userType; }
     public void setUserType(int userType) { this.userType = userType; }
 
-    // Çerçeveyi döndüren metot (Alt sınıflar bunu ezebilir/override edebilir)
     public JFrame getMainFrame() {
-        // TODO: Arayüz (GUI) oluşturma kodları buraya gelebilir
         return new JFrame(); 
     }
 }

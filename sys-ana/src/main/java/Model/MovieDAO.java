@@ -11,7 +11,6 @@ package Model;
 
 import java.util.List;
 import java.util.ArrayList;
-import Model.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +18,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class MovieDAO {
-
+    public MovieDAO(){}
+    
     public List<Movie> getAllMovies() {
         List<Movie> movies = new ArrayList<>(); 
         String sql = "SELECT m.*, " +
@@ -48,7 +48,7 @@ public class MovieDAO {
         return movies; 
     }
     
-    private Movie mapResultSetToMovie(ResultSet rs) throws SQLException {
+    public Movie mapResultSetToMovie(ResultSet rs) throws SQLException {
     
         Person director = null;
         int dirId = rs.getInt("dir_id"); 
@@ -137,7 +137,7 @@ public class MovieDAO {
                 }
 
             } catch (SQLException e) {
-                System.out.println("getMovieByID error");
+                System.out.println("getMovieByID error" + e.getMessage());
                 e.printStackTrace();
             }
         return movie;
@@ -311,5 +311,56 @@ public class MovieDAO {
         }
 
         return movies;
+    }
+    
+    public boolean markWatched(int movieId, boolean watched) {
+        String sql = "UPDATE Movies SET IsWatched = ? WHERE MovieID = ?";
+        try (PreparedStatement ps = DatabaseManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setBoolean(1, watched);
+            ps.setInt(2, movieId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("error mark watched"+ e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean rateMovie(int movieId, int rating) {
+        String sql = "UPDATE Movies SET Rating = ? WHERE MovieID = ?";
+        try (PreparedStatement ps = DatabaseManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setInt(1, rating);
+            ps.setInt(2, movieId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("rate movie error "+ e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean addComment(int movieId, String comment) {
+        String sql = "UPDATE Movies SET Comments = ? WHERE MovieID = ?";
+        try (PreparedStatement ps = DatabaseManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setString(1, comment);
+            ps.setInt(2, movieId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("add comment error "+ e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteComment(int movieId) {
+        String sql = "UPDATE Movies SET Comments = NULL WHERE MovieID = ?";
+        try (PreparedStatement ps = DatabaseManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setInt(1, movieId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("error delete comment"+ e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 }
