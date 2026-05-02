@@ -43,7 +43,11 @@ public class User {
 
     public int getUserType() { return userType; }
     public void setUserType(int userType) { this.userType = userType; }
-
+    
+    public boolean isParent(){
+        return (1==userType);
+    }
+    
     public JFrame getMainFrame() {
         return new JFrame(); 
     }

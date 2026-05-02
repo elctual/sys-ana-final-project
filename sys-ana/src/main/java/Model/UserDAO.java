@@ -47,22 +47,23 @@ public class UserDAO {
       }
       return users;
   }
+    public boolean createUser(User user) {
+       
+        String sql = "INSERT INTO `User` (Username, Password, UserType, Email) VALUES (?, ?, ?, ?)";
 
-  public boolean createUser(User user) {
-      String sql = "INSERT INTO `User` (UserId, Username, Password, UserType, Email) VALUES (?, ?, ?, ?, ?)";
-      try (PreparedStatement ps = DatabaseManager.getInstance().getConnection().prepareStatement(sql)) {
-          ps.setInt(1, user.getUserId());
-          ps.setString(2, user.getUsername());
-          ps.setString(3, user.getPassword());
-          ps.setInt(4, user.getUserType());
-          ps.setString(5, user.getEmail());
-          return ps.executeUpdate() > 0;
-      } catch (SQLException e) {
-          System.out.println("create user error "+ e.getMessage());
-          e.printStackTrace();
-          return false;
-      }
-  }
+       try (PreparedStatement ps = DatabaseManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setInt(3, user.getUserType());
+            ps.setString(4, user.getEmail());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("create user error: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
 
   public boolean updateUser(User user) {
       String sql = "UPDATE `User` SET Username = ?, Password = ?, UserType = ?, Email = ? WHERE UserId = ?";
@@ -104,6 +105,11 @@ public class UserDAO {
           return false;
       }
   }
+  
+  public boolean validateUser(String username, String password) {
+        User user = getUserByCredentials(username, password);
+        return user != null;
+    }
 
   private User mapResultSetToUser(ResultSet rs) throws SQLException {
       // public User(int userId, String username, String password, String email, int userType) {
