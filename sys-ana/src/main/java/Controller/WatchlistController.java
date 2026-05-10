@@ -8,6 +8,25 @@ package Controller;
  *
  * @author elifa
  */
+
+import Model.DatabaseManager;
+import Model.Movie;
+import Model.WatchlistDAO;
+import java.util.List;
+
 public class WatchlistController {
-    
+
+    private final WatchlistDAO watchlistDAO = new WatchlistDAO(DatabaseManager.getInstance());
+
+    public boolean addToWatchlist(int userId, int movieId) {
+        return watchlistDAO.addToWatchlist(userId, movieId);
+    }
+
+    public boolean removeFromWatchlist(int userId, int movieId) {
+        return watchlistDAO.removeFromWatchlist(userId, movieId);
+    }
+
+    public List<Movie> getWatchlist(int userId) {
+        return watchlistDAO.getWatchlistByUser(userId);
+    }
 }

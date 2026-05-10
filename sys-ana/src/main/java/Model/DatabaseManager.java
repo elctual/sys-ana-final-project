@@ -46,6 +46,15 @@ public class DatabaseManager {
     }
 
     public Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                System.out.println("Reconnected to MySQL.");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println("Reconnection failed: " + e.getMessage());
+        }
         return connection;
     }
 
